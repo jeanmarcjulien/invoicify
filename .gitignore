@@ -8,6 +8,7 @@ target/
 .project
 .settings
 .springBeans
+launch.json
 
 ### IntelliJ IDEA ###
 .idea
