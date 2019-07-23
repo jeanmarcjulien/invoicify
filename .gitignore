@@ -9,7 +9,7 @@ target/
 .settings
 .springBeans
 launch.json
-.properties
+application.properties
 
 ### IntelliJ IDEA ###
 .idea
