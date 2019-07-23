@@ -8,8 +8,8 @@ target/
 .project
 .settings
 .springBeans
+.properties
 launch.json
-src\main\resources\application.properties
 
 ### IntelliJ IDEA ###
 .idea
