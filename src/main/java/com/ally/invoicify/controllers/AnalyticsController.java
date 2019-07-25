@@ -133,4 +133,63 @@ public class AnalyticsController {
 
         return invXmonth;
     }
+
+    @GetMapping("/user/{userId}/graph")
+    public InvPerMonth listGraph(@PathVariable long userId) {
+        InvPerMonth invXmonth = new InvPerMonth();
+        List<Invoice> userInvoices = new ArrayList<Invoice>();
+
+        // Look at all invoices, if userId matches add it to userInvoices
+        for (Invoice invoice : invoiceRepository.findAll()) {
+            if (invoice.getCreatedBy().getId() == userId) {
+                userInvoices.add(invoice);
+            }
+        }
+
+        // Loop through invoices, add to month counters
+        for (Invoice invoice : userInvoices) {
+            switch (invoice.getCreatedOn().getMonth()) {
+                case 0:
+                    invXmonth.setJan(invXmonth.getJan() + 1);
+                    break;
+                case 1:
+                    invXmonth.setFeb(invXmonth.getFeb() + 1);
+                    break;
+                case 2:
+                    invXmonth.setMar(invXmonth.getMar() + 1);
+                    break;
+                case 3:
+                    invXmonth.setApr(invXmonth.getApr() + 1);
+                    break;
+                case 4:
+                    invXmonth.setMay(invXmonth.getMay() + 1);
+                    break;
+                case 5:
+                    invXmonth.setJun(invXmonth.getJun() + 1);
+                    break;
+                case 6:
+                    invXmonth.setJul(invXmonth.getJul() + 1);
+                    break;
+                case 7:
+                    invXmonth.setAug(invXmonth.getAug() + 1);
+                    break;
+                case 8:
+                    invXmonth.setSep(invXmonth.getSep() + 1);
+                    break;
+                case 9:
+                    invXmonth.setOct(invXmonth.getOct() + 1);
+                    break;
+                case 10:
+                    invXmonth.setNov(invXmonth.getNov() + 1);
+                    break;
+                case 11:
+                    invXmonth.setDec(invXmonth.getDec() + 1);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return invXmonth;
+    }
 }
