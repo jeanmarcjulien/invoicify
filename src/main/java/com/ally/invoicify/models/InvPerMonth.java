@@ -1,7 +1,5 @@
 package com.ally.invoicify.models;
 
-import java.util.List;
-
 public class InvPerMonth {
     private String month;
     private int value;

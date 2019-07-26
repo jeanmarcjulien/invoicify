@@ -1,7 +1,6 @@
 package com.ally.invoicify.configuration;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ally.invoicify.models.Company;
