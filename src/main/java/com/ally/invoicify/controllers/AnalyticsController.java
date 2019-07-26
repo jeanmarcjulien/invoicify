@@ -165,36 +165,6 @@ public class AnalyticsController {
             }
         }
 
-
-
-        boolean userIdExists = false;
-        //no provided -1
-        // provided not existing
-        // provided existing
-
-
-        if(userId != -1){   //not provided
-            if(this.userRepository.findOne(userId) != null)
-                userIdExists = true;
-            else{
-                invXmonth.setJan(-1);
-                invXmonth.setFeb(-1);
-                invXmonth.setMar(-1);
-                invXmonth.setApr(-1);
-                invXmonth.setMay(-1);
-                invXmonth.setJun(-1);
-                invXmonth.setJul(-1);
-                invXmonth.setAug(-1);
-                invXmonth.setSep(-1);
-                invXmonth.setOct(-1);
-                invXmonth.setNov(-1);
-                invXmonth.setDec(-1);
-                return invXmonth;
-            }
-        }
-
-
-
         // Look at all invoices, if clientId matches add it to clientInvoices
         for (Invoice invoice : invoiceRepository.findAll()) {
             if (invoice.getCompany().getId() == clientId) {
