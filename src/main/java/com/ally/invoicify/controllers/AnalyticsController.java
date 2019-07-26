@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import com.ally.invoicify.models.InvPerMonth;
 import com.ally.invoicify.models.Invoice;
 import com.ally.invoicify.repositories.InvoiceRepository;
 import com.ally.invoicify.repositories.CompanyRepository;
+import com.ally.invoicify.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/analytics")
@@ -22,8 +24,11 @@ public class AnalyticsController {
     private InvoiceRepository invoiceRepository;
 
     @Autowired
-	CompanyRepository companyRepo;
-    
+    CompanyRepository companyRepo;
+
+    @Autowired
+	private UserRepository userRepository;
+
     @GetMapping
     public List<InvPerMonth> list() {
         List<InvPerMonth> invXmonthList = new ArrayList<InvPerMonth>();
@@ -101,7 +106,7 @@ public class AnalyticsController {
     }
 
     @GetMapping("/client/{clientId}")
-    public List<InvPerMonth> listClient(@PathVariable long clientId) {
+    public List<InvPerMonth> listClient(@PathVariable long clientId, @RequestParam(value = "user-id", defaultValue = "-1") Long userId) {
         List<InvPerMonth> invXmonthList = new ArrayList<InvPerMonth>();
         List<Invoice> clientInvoices = new ArrayList<Invoice>();
         InvPerMonth jan = new InvPerMonth("jan", 0);
@@ -117,10 +122,57 @@ public class AnalyticsController {
         InvPerMonth nov = new InvPerMonth("nov", 0);
         InvPerMonth dec = new InvPerMonth("dec", 0);
 
+        boolean userIdExists = false;
+        //no provided -1
+        // provided not existing
+        // provided existing
+
+
+        if(userId != -1) {   //not provided
+            if(this.userRepository.findOne(userId) != null)
+                userIdExists = true;
+            else {
+                jan.setValue(-1);
+                feb.setValue(-1);
+                mar.setValue(-1);
+                apr.setValue(-1);
+                may.setValue(-1);
+                jun.setValue(-1);
+                jul.setValue(-1);
+                aug.setValue(-1);
+                sep.setValue(-1);
+                oct.setValue(-1);
+                nov.setValue(-1);
+                dec.setValue(-1);
+
+                invXmonthList.add(jan);
+                invXmonthList.add(feb);
+                invXmonthList.add(mar);
+                invXmonthList.add(apr);
+                invXmonthList.add(may);
+                invXmonthList.add(jun);
+                invXmonthList.add(jul);
+                invXmonthList.add(aug);
+                invXmonthList.add(sep);
+                invXmonthList.add(oct);
+                invXmonthList.add(nov);
+                invXmonthList.add(dec);
+
+                return invXmonthList;
+            }
+        }
+
+
+
         // Look at all invoices, if clientId matches add it to clientInvoices
         for (Invoice invoice : invoiceRepository.findAll()) {
             if (invoice.getCompany().getId() == clientId) {
-                clientInvoices.add(invoice);
+                if(userIdExists){
+                    if(invoice.getCreatedBy().getId() == userId)
+                        clientInvoices.add(invoice);
+                }
+                else
+                    clientInvoices.add(invoice);
             }
         }
 
