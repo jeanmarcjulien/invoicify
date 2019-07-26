@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
-
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.ally.invoicify.models.InvPerMonth;
 import com.ally.invoicify.models.Invoice;
@@ -318,5 +316,39 @@ public class AnalyticsController {
         invXmonthList.add(dec);
 
         return invXmonthList;
+    }
+
+    // Return top 3
+    @GetMapping("/user/{userId}/table")
+    public List<Invoice> listTable(@PathVariable long userId) {
+        List<Invoice> userInvoices = new ArrayList<Invoice>();
+        List<Invoice> topInvoices = new ArrayList<Invoice>();
+
+        // Look at all invoices, if userId matches add it to userInvoices
+        for (Invoice invoice : invoiceRepository.findAll()) {
+            if (invoice.getCreatedBy().getId() == userId) {
+                userInvoices.add(invoice);
+            }
+        }
+
+        Collections.sort(userInvoices, (x,y) -> x.getCreatedOn().compareTo(y.getCreatedOn()));
+
+        if (userInvoices.isEmpty() != true) {
+            switch (userInvoices.size()) {
+                case 3:
+                    topInvoices.add(userInvoices.get(2));
+                case 2:
+                    topInvoices.add(userInvoices.get(1));
+                case 1:
+                    topInvoices.add(userInvoices.get(0));
+                    break;
+                default:
+                    topInvoices.add(userInvoices.get(2));
+                    topInvoices.add(userInvoices.get(1));
+                    topInvoices.add(userInvoices.get(0));
+                    break;
+            }
+        }
+        return topInvoices;
     }
 }
