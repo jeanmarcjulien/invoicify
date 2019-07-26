@@ -1,112 +1,27 @@
 package com.ally.invoicify.models;
 
 public class InvPerMonth {
-    private int jan;
-    private int feb;
-    private int mar;
-    private int apr;
-    private int may;
-    private int jun;
-    private int jul;
-    private int aug;
-    private int sep;
-    private int oct;
-    private int nov;
-    private int dec;
+    private String month;
+    private int value;
 
-    public int getJan() {
-        return jan;
+    public String getMonth() {
+        return month;
     }
 
-    public void setJan(int jan) {
-        this.jan = jan;
+    public void setMonth(String month) {
+        this.month = month;
     }
 
-    public int getFeb() {
-        return feb;
+    public int getValue() {
+        return value;
     }
 
-    public void setFeb(int feb) {
-        this.feb = feb;
+    public void setValue(int value) {
+        this.value = value;
     }
 
-    public int getMar() {
-        return mar;
-    }
-
-    public void setMar(int mar) {
-        this.mar = mar;
-    }
-
-    public int getApr() {
-        return apr;
-    }
-
-    public void setApr(int apr) {
-        this.apr = apr;
-    }
-
-    public int getMay() {
-        return may;
-    }
-
-    public void setMay(int may) {
-        this.may = may;
-    }
-
-    public int getJun() {
-        return jun;
-    }
-
-    public void setJun(int jun) {
-        this.jun = jun;
-    }
-
-    public int getJul() {
-        return jul;
-    }
-
-    public void setJul(int jul) {
-        this.jul = jul;
-    }
-
-    public int getAug() {
-        return aug;
-    }
-
-    public void setAug(int aug) {
-        this.aug = aug;
-    }
-
-    public int getSep() {
-        return sep;
-    }
-
-    public void setSep(int sep) {
-        this.sep = sep;
-    }
-
-    public int getOct() {
-        return oct;
-    }
-
-    public void setOct(int oct) {
-        this.oct = oct;
-    }
-
-    public int getNov() {
-        return nov;
-    }
-
-    public void setNov(int nov) {
-        this.nov = nov;
-    }
-
-    public int getDec() {
-        return dec;
-    }
-
-    public void setDec(int dec) {
-        this.dec = dec;
+    public InvPerMonth(String month, int value) {
+        this.month = month;
+        this.value = value;
     }
 }
