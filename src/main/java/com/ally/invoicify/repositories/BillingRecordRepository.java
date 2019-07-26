@@ -9,6 +9,7 @@ import com.ally.invoicify.models.BillingRecord;
 public interface BillingRecordRepository extends JpaRepository<BillingRecord, Long> {
 
 	List<BillingRecord> findByIdIn(long[] recordIds);
+	List<BillingRecord> findByClientId(Long id);
 //
 //	List<BillingRecord> findByClientIdAndLineItemIsNull(long clientId);
 
