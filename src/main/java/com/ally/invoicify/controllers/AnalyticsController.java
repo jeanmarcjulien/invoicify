@@ -343,9 +343,9 @@ public class AnalyticsController {
                     topInvoices.add(userInvoices.get(0));
                     break;
                 default:
-                    topInvoices.add(userInvoices.get(2));
-                    topInvoices.add(userInvoices.get(1));
-                    topInvoices.add(userInvoices.get(0));
+                    topInvoices.add(userInvoices.get(userInvoices.size()-1));
+                    topInvoices.add(userInvoices.get(userInvoices.size()-2));
+                    topInvoices.add(userInvoices.get(userInvoices.size()-3));
                     break;
             }
         }
