@@ -18,25 +18,27 @@ public abstract class BillingRecord {
 
 	@ManyToOne
 	private User createdBy;
-	
+
+	private Boolean inUse = false;
+
 	private String description;
-	
+
 	@JsonManagedReference
 	@OneToOne(mappedBy="billingRecord")
 	private InvoiceLineItem lineItem;
-	
+
 	@ManyToOne
 	private Company client;
-	
+
 	public BillingRecord() {}
-	
+
 	public BillingRecord(String description, Company client, User createdBy) {
 		this();
 		this.description = description;
 		this.client = client;
 		this.setCreatedBy(createdBy);
 	}
-	
+
 	public abstract double getTotal();
 
 	public Long getId() {
@@ -78,5 +80,13 @@ public abstract class BillingRecord {
 	public void setClient(Company client) {
 		this.client = client;
 	}
-	
+
+	public Boolean getInUse() {
+		return inUse;
+	}
+
+	public void setInUse(Boolean inUse) {
+		this.inUse = inUse;
+	}
+
 }

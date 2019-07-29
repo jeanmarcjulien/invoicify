@@ -26,16 +26,16 @@ import com.ally.invoicify.repositories.InvoiceRepository;
 @RestController
 @RequestMapping("/api/invoice")
 public class InvoiceController {
-	
+
 	@Autowired
 	private BillingRecordRepository recordRepository;
-	
+
 	@Autowired
 	private InvoiceRepository invoiceRepository;
-	
+
 	@Autowired
 	private CompanyRepository companyRepository;
-	
+
 	@PostMapping("{clientId}")
 	public Invoice createInvoice(@RequestBody InvoiceView invoiceView, @PathVariable long clientId, Authentication auth) {
 		User creator = (User) auth.getPrincipal();
@@ -44,31 +44,34 @@ public class InvoiceController {
 		Date now = new Date(nowish);
 		Invoice invoice = new Invoice();
 		invoice.setInvoiceDescription(invoiceView.getInvoiceDescription());
-		
+
 		List<InvoiceLineItem> items = new ArrayList<InvoiceLineItem>();
 		for (BillingRecord record : records) {
 			InvoiceLineItem lineItem = new InvoiceLineItem();
+			record.setInUse(true);
+			System.out.println(record.getInUse());
 			lineItem.setBillingRecord(record);
 			lineItem.setCreatedBy(creator);
 			lineItem.setCreatedOn(now);
 			lineItem.setInvoice(invoice);
 			items.add(lineItem);
 		}
-		
+
 		invoice.setLineItems(items);
 		invoice.setCreatedBy(creator);
 		invoice.setCreatedOn(now);
 		invoice.setCompany(companyRepository.findOne(clientId));
-		
+
+		recordRepository.save(records);
 		return invoiceRepository.save(invoice);
 	}
-	
+
 
 	@GetMapping
 	public List<Invoice> list() {
 		return invoiceRepository.findAll();
 	}
-	
+
 }
 
 
