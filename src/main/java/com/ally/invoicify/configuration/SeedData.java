@@ -17,6 +17,10 @@ public class SeedData {
 	public SeedData(BillingRecordRepository recordRepository, CompanyRepository companyRepository,
 			UserRepository userRepository, PasswordEncoder encoder) {
 		User admin = userRepository.save(new User("admin", encoder.encode("admin")));
+		User userBob = userRepository.save(new User("bob", encoder.encode("password")));
+		User userBobby = userRepository.save(new User("bobby", encoder.encode("password")));
+		User userSally = userRepository.save(new User("sally", encoder.encode("password")));
+		User userCindy = userRepository.save(new User("cindy", encoder.encode("password")));
 
 		Company vapianos = companyRepository.save(new Company("Vapianos Ltd."));
 		Company merts = companyRepository.save(new Company("Merts, LLC"));
