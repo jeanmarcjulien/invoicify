@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -40,8 +42,13 @@ public class InvoiceController {
 	public Invoice createInvoice(@RequestBody InvoiceView invoiceView, @PathVariable long clientId, Authentication auth) {
 		User creator = (User) auth.getPrincipal();
 		List<BillingRecord> records = recordRepository.findByIdIn(invoiceView.getRecordIds());
-		long nowish = Calendar.getInstance().getTimeInMillis();
-		Date now = new Date(nowish);
+		Random random = new Random();
+		int year = random.nextInt(2019 - 2015 + 1) + 2015;
+		int dayOfYear = random.nextInt(365 - 1 + 1) + 1;;
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+		Date now = new Date(calendar.getTimeInMillis());
 		Invoice invoice = new Invoice();
 		invoice.setInvoiceDescription(invoiceView.getInvoiceDescription());
 
@@ -49,7 +56,6 @@ public class InvoiceController {
 		for (BillingRecord record : records) {
 			InvoiceLineItem lineItem = new InvoiceLineItem();
 			record.setInUse(true);
-			System.out.println(record.getInUse());
 			lineItem.setBillingRecord(record);
 			lineItem.setCreatedBy(creator);
 			lineItem.setCreatedOn(now);
