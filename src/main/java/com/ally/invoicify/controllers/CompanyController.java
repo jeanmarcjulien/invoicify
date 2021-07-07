@@ -27,11 +27,6 @@ public class CompanyController {
 		return companyRepo.findAll();
 	}
 	
-	@GetMapping("/hello")
-	public String hello(){
-		return "hello world 1";
-	}
-	
 	@GetMapping("{id}")
 	public Company getOne(@PathVariable long id){
 		return companyRepo.findOne(id);
